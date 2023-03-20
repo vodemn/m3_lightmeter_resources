@@ -19,4 +19,20 @@ class EquipmentProfileData {
     required this.shutterSpeedValues,
     required this.isoValues,
   });
+
+  EquipmentProfileData copyWith({
+    String? name,
+    List<ApertureValue>? apertureValues,
+    List<NdValue>? ndValues,
+    List<ShutterSpeedValue>? shutterSpeedValues,
+    List<IsoValue>? isoValues,
+  }) =>
+      EquipmentProfileData(
+        id: id,
+        name: name ?? this.name,
+        apertureValues: apertureValues ?? this.apertureValues,
+        ndValues: ndValues ?? this.ndValues,
+        shutterSpeedValues: shutterSpeedValues ?? this.shutterSpeedValues,
+        isoValues: isoValues ?? this.isoValues,
+      );
 }
