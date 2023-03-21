@@ -7,6 +7,4 @@ export 'src/data/models/photography_values/nd_value.dart';
 export 'src/data/models/photography_values/photography_value.dart';
 export 'src/data/models/photography_values/shutter_speed_value.dart';
 
-export 'src/res/dimens.dart';
-
 export 'src/utils/log_2.dart';
