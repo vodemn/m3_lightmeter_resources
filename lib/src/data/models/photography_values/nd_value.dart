@@ -10,6 +10,16 @@ class NdValue extends PhotographyValue<int> {
   @override
   String toString() => 'ND$value';
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+    return other is NdValue && other.rawValue == rawValue;
+  }
+
+  @override
+  int get hashCode => Object.hash(rawValue, runtimeType);
+
   /// https://shuttermuse.com/neutral-density-filter-numbers-names/
   static const List<NdValue> values = [
     NdValue(0),

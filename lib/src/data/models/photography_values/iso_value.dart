@@ -6,6 +6,16 @@ class IsoValue extends PhotographyStopValue<int> {
   @override
   String toString() => value.toString();
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+    return other is IsoValue && other.rawValue == rawValue;
+  }
+
+  @override
+  int get hashCode => Object.hash(rawValue, runtimeType);
+
   static const List<IsoValue> values = [
     IsoValue(3, StopType.full),
     IsoValue(4, StopType.third),

@@ -14,6 +14,16 @@ class ApertureValue extends PhotographyStopValue<double> {
     return buffer.toString();
   }
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+    return other is ApertureValue && other.rawValue == rawValue;
+  }
+
+  @override
+  int get hashCode => Object.hash(rawValue, runtimeType);
+
   static const List<ApertureValue> values = [
     ApertureValue(1.0, StopType.full),
     ApertureValue(1.1, StopType.third),

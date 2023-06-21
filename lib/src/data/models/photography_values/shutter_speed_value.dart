@@ -21,6 +21,16 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
     return buffer.toString();
   }
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+    return other is ShutterSpeedValue && other.rawValue == rawValue && other.isFraction == isFraction;
+  }
+
+  @override
+  int get hashCode => Object.hash(rawValue, isFraction, runtimeType);
+
   static const List<ShutterSpeedValue> values = [
     ShutterSpeedValue(2000, true, StopType.full),
     ShutterSpeedValue(1600, true, StopType.third),
