@@ -32,4 +32,6 @@ jobs:
         run: flutter analyze lib --fatal-infos
 
       - name: Run tests
-        run: flutter test
+        run: | 
+          flutter test --coverage
+          flutter pub run test_coverage_badge

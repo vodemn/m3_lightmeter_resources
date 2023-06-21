@@ -1,10 +1,9 @@
 name: m3_lightmeter_resources
 description: Common resources used by m3_lightmeter and related repositories.
-version: 0.1.0
+version: 0.2.0
 
 environment:
-  sdk: '>=2.19.2 <3.0.0'
-  flutter: ">=1.17.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -14,5 +13,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  test_coverage_badge: ^0.2.0
+  
 
 flutter:
