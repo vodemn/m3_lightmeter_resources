@@ -11,8 +11,11 @@ abstract class PhotographyValue<T extends num> {
 
   T get value => rawValue;
 
+  /// returns otherEV - thisEV
+  double difference(PhotographyValue other) => log2(max(1, other.value) / max(1, value));
+
   String toStringDifference(PhotographyValue other) {
-    final ev = log2(max(1, other.value) / max(1, value));
+    final ev = difference(other);
     final buffer = StringBuffer();
     if (ev > 0) {
       buffer.write('+');
