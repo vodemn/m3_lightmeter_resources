@@ -7,6 +7,13 @@ void main() {
   const b = ShutterSpeedValue(1.3, true, StopType.full);
   const c = ShutterSpeedValue(1, false, StopType.full);
 
+  test('difference', () {
+    expect(a.difference(b), 0.0);
+    expect(b.difference(a), 0.0);
+    expect(a.difference(c), 0.4);
+    expect(c.difference(a), -0.4);
+  });
+
   test('value', () {
     expect(a.value, 1 / 1.3);
     expect(b.value, 1 / 1.3);

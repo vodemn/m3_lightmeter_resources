@@ -5,6 +5,16 @@ void main() {
   const a = NdValue(2);
   const b = NdValue(2);
   const c = NdValue(4);
+  const d = NdValue(8);
+
+  test('difference', () {
+    expect(a.difference(b), 0.0);
+    expect(b.difference(a), 0.0);
+    expect(a.difference(c), 1);
+    expect(c.difference(a), -1);
+    expect(a.difference(d), 2);
+    expect(d.difference(a), -2);
+  });
 
   test('stopReduction', () {
     expect(a.stopReduction, 1);

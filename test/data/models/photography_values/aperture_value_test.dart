@@ -5,12 +5,19 @@ import 'package:m3_lightmeter_resources/src/data/models/photography_values/photo
 void main() {
   const a = ApertureValue(1.4, StopType.full);
   const b = ApertureValue(1.4, StopType.full);
-  const c = ApertureValue(16, StopType.full);
+  const c = ApertureValue(3.5, StopType.third);
+
+  test('difference', () {
+    expect(a.difference(b), 0.0);
+    expect(b.difference(a), 0.0);
+    expect(a.difference(c), 2.6);
+    expect(c.difference(a), -2.6);
+  });
 
   test('toString()', () {
     expect(a.toString(), "f/1.4");
     expect(b.toString(), "f/1.4");
-    expect(c.toString(), "f/16");
+    expect(c.toString(), "f/3.5");
   });
 
   test('==', () {

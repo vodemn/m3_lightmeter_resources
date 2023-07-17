@@ -1,7 +1,12 @@
+import 'package:m3_lightmeter_resources/src/utils/log_2.dart';
+
 import 'photography_value.dart';
 
 class ApertureValue extends PhotographyStopValue<double> {
   const ApertureValue(super.rawValue, super.stopType);
+
+  @override
+  double difference(PhotographyValue other) => (log2(other.value / value) * 2 * 10).roundToDouble() / 10;
 
   @override
   String toString() {

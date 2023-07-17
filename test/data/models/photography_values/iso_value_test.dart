@@ -6,6 +6,16 @@ void main() {
   const a = IsoValue(100, StopType.full);
   const b = IsoValue(100, StopType.full);
   const c = IsoValue(125, StopType.third);
+  const d = IsoValue(160, StopType.third);
+
+  test('difference', () {
+    expect(a.difference(b), 0.0);
+    expect(b.difference(a), 0.0);
+    expect(a.difference(c), 0.3);
+    expect(c.difference(a), -0.3);
+    expect(a.difference(d), 0.7);
+    expect(d.difference(a), -0.7);
+  });
 
   test('toString()', () {
     expect(a.toString(), "100");

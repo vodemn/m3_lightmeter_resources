@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:m3_lightmeter_resources/src/utils/log_2.dart';
 
 enum StopType { full, half, third }
@@ -12,7 +10,7 @@ abstract class PhotographyValue<T extends num> {
   T get value => rawValue;
 
   /// returns otherEV - thisEV
-  double difference(PhotographyValue other) => log2(max(1, other.value) / max(1, value));
+  double difference(PhotographyValue other) => (log2(other.value / value) * 10).roundToDouble() / 10;
 
   String toStringDifference(PhotographyValue other) {
     final ev = difference(other);
