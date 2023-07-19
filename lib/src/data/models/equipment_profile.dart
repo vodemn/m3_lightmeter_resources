@@ -3,7 +3,7 @@ import 'photography_values/iso_value.dart';
 import 'photography_values/nd_value.dart';
 import 'photography_values/shutter_speed_value.dart';
 
-class EquipmentProfileData {
+class EquipmentProfile {
   final String id;
   final String name;
   final List<ApertureValue> apertureValues;
@@ -11,7 +11,7 @@ class EquipmentProfileData {
   final List<ShutterSpeedValue> shutterSpeedValues;
   final List<IsoValue> isoValues;
 
-  const EquipmentProfileData({
+  const EquipmentProfile({
     required this.id,
     required this.name,
     required this.apertureValues,
@@ -20,14 +20,14 @@ class EquipmentProfileData {
     required this.isoValues,
   });
 
-  EquipmentProfileData copyWith({
+  EquipmentProfile copyWith({
     String? name,
     List<ApertureValue>? apertureValues,
     List<NdValue>? ndValues,
     List<ShutterSpeedValue>? shutterSpeedValues,
     List<IsoValue>? isoValues,
   }) =>
-      EquipmentProfileData(
+      EquipmentProfile(
         id: id,
         name: name ?? this.name,
         apertureValues: apertureValues ?? this.apertureValues,
@@ -40,7 +40,7 @@ class EquipmentProfileData {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    return other is EquipmentProfileData && other.id == id && other.name == name;
+    return other is EquipmentProfile && other.id == id && other.name == name;
   }
 
   @override

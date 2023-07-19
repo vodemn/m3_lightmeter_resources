@@ -1,6 +1,6 @@
 library m3_lightmeter_resources;
 
-export 'src/data/models/equipment_profile_data.dart';
+export 'src/data/models/equipment_profile.dart';
 export 'src/data/models/photography_values/aperture_value.dart';
 export 'src/data/models/photography_values/iso_value.dart';
 export 'src/data/models/photography_values/nd_value.dart';

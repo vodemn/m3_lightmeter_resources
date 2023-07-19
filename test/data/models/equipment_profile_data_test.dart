@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:m3_lightmeter_resources/src/data/models/equipment_profile_data.dart';
+import 'package:m3_lightmeter_resources/src/data/models/equipment_profile.dart';
 import 'package:m3_lightmeter_resources/src/data/models/photography_values/aperture_value.dart';
 import 'package:m3_lightmeter_resources/src/data/models/photography_values/iso_value.dart';
 import 'package:m3_lightmeter_resources/src/data/models/photography_values/nd_value.dart';
 import 'package:m3_lightmeter_resources/src/data/models/photography_values/shutter_speed_value.dart';
 
 void main() {
-  const a = EquipmentProfileData(
+  const a = EquipmentProfile(
     id: "0",
     name: "TestData0",
     apertureValues: ApertureValue.values,
@@ -14,7 +14,7 @@ void main() {
     shutterSpeedValues: ShutterSpeedValue.values,
     isoValues: IsoValue.values,
   );
-  const b = EquipmentProfileData(
+  const b = EquipmentProfile(
     id: "0",
     name: "TestData0",
     apertureValues: ApertureValue.values,
@@ -22,7 +22,7 @@ void main() {
     shutterSpeedValues: ShutterSpeedValue.values,
     isoValues: IsoValue.values,
   );
-  const c = EquipmentProfileData(
+  const c = EquipmentProfile(
     id: "1",
     name: "TestData1",
     apertureValues: ApertureValue.values,
@@ -46,7 +46,7 @@ void main() {
   test('copyWith', () {
     expect(
       a.copyWith(name: "TestData0_copy"),
-      const EquipmentProfileData(
+      const EquipmentProfile(
         id: "0",
         name: "TestData0_copy",
         apertureValues: ApertureValue.values,
@@ -57,7 +57,7 @@ void main() {
     );
     expect(
       c.copyWith(),
-      const EquipmentProfileData(
+      const EquipmentProfile(
         id: "1",
         name: "TestData1",
         apertureValues: ApertureValue.values,
