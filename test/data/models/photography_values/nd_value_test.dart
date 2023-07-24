@@ -2,29 +2,29 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:m3_lightmeter_resources/src/data/models/photography_values/nd_value.dart';
 
 void main() {
-  const a = NdValue(2);
-  const b = NdValue(2);
+  const a = NdValue(0);
+  const b = NdValue(0);
   const c = NdValue(4);
   const d = NdValue(8);
 
   test('difference', () {
     expect(a.difference(b), 0.0);
     expect(b.difference(a), 0.0);
-    expect(a.difference(c), 1);
-    expect(c.difference(a), -1);
-    expect(a.difference(d), 2);
-    expect(d.difference(a), -2);
+    expect(a.difference(c), 2);
+    expect(c.difference(a), -2);
+    expect(a.difference(d), 3);
+    expect(d.difference(a), -3);
   });
 
   test('stopReduction', () {
-    expect(a.stopReduction, 1);
-    expect(b.stopReduction, 1);
+    expect(a.stopReduction, 0);
+    expect(b.stopReduction, 0);
     expect(c.stopReduction, 2);
   });
 
   test('toString()', () {
-    expect(a.toString(), "ND2");
-    expect(b.toString(), "ND2");
+    expect(a.toString(), "ND0");
+    expect(b.toString(), "ND0");
     expect(c.toString(), "ND4");
   });
 

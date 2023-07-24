@@ -8,6 +8,20 @@ class NdValue extends PhotographyValue<int> {
   double get stopReduction => value == 0 ? 0.0 : log2(value);
 
   @override
+  double difference(PhotographyValue other) {
+    if (value == other.value) {
+      return 0.0;
+    } else {
+      final absValue = (log2((other.value - value).abs()) * 10).roundToDouble() / 10;
+      if (other.value < value) {
+        return -absValue;
+      } else {
+        return absValue;
+      }
+    }
+  }
+
+  @override
   String toString() => 'ND$value';
 
   @override
