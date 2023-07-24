@@ -16,6 +16,15 @@ void main() {
     expect(d.difference(a), -3);
   });
 
+  test('toStringDifference', () {
+    expect(a.toStringDifference(b), "0.0");
+    expect(b.toStringDifference(a), "0.0");
+    expect(a.toStringDifference(c), "+2.0");
+    expect(c.toStringDifference(a), "-2.0");
+    expect(a.toStringDifference(d), "+3.0");
+    expect(d.toStringDifference(a), "-3.0");
+  });
+
   test('stopReduction', () {
     expect(a.stopReduction, 0);
     expect(b.stopReduction, 0);
