@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'photography_values/aperture_value.dart';
 import 'photography_values/iso_value.dart';
 import 'photography_values/nd_value.dart';
@@ -40,7 +42,15 @@ class EquipmentProfile {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    return other is EquipmentProfile && other.id == id && other.name == name;
+    return other is EquipmentProfile &&
+        other.id == id &&
+        other.name == name &&
+        apertureValues.first == other.apertureValues.first &&
+        apertureValues.last == other.apertureValues.last &&
+        listEquals(ndValues, other.ndValues) &&
+        shutterSpeedValues.first == other.shutterSpeedValues.first &&
+        shutterSpeedValues.last == other.shutterSpeedValues.last &&
+        listEquals(isoValues, other.isoValues);
   }
 
   @override

@@ -22,7 +22,25 @@ void main() {
     shutterSpeedValues: ShutterSpeedValue.values,
     isoValues: IsoValue.values,
   );
-  const c = EquipmentProfile(
+  final c = EquipmentProfile(
+    id: "1",
+    name: "TestData1",
+    apertureValues: ApertureValue.values.sublist(3, ApertureValue.values.length - 5),
+    ndValues: [
+      NdValue.values[0],
+      NdValue.values[1],
+      NdValue.values[2],
+      NdValue.values.last,
+    ],
+    shutterSpeedValues: ShutterSpeedValue.values.sublist(3, ShutterSpeedValue.values.length - 5),
+    isoValues: [
+      IsoValue.values[1],
+      IsoValue.values[5],
+      IsoValue.values[10],
+      IsoValue.values[12],
+    ],
+  );
+  const d = EquipmentProfile(
     id: "1",
     name: "TestData1",
     apertureValues: ApertureValue.values,
@@ -35,6 +53,7 @@ void main() {
     expect(a == b && b == a, true);
     expect(a != c && c != a, true);
     expect(b != c && c != b, true);
+    expect(d != c && c != d, true);
   });
 
   test('hashCode', () {
@@ -56,7 +75,12 @@ void main() {
       ),
     );
     expect(
-      c.copyWith(),
+      c.copyWith(
+        apertureValues: ApertureValue.values,
+        ndValues: NdValue.values,
+        shutterSpeedValues: ShutterSpeedValue.values,
+        isoValues: IsoValue.values,
+      ),
       const EquipmentProfile(
         id: "1",
         name: "TestData1",
