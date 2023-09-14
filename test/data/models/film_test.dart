@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:m3_lightmeter_resources/m3_lightmeter_resources.dart';
 import 'package:m3_lightmeter_resources/src/data/models/film.dart';
+import 'package:m3_lightmeter_resources/src/data/models/photography_values/photography_value.dart';
+import 'package:m3_lightmeter_resources/src/data/models/photography_values/shutter_speed_value.dart';
 
 void main() {
   test('iso', () {
