@@ -12,6 +12,7 @@ class EquipmentProfile {
   final List<NdValue> ndValues;
   final List<ShutterSpeedValue> shutterSpeedValues;
   final List<IsoValue> isoValues;
+  final double lensZoom;
 
   const EquipmentProfile({
     required this.id,
@@ -20,6 +21,7 @@ class EquipmentProfile {
     required this.ndValues,
     required this.shutterSpeedValues,
     required this.isoValues,
+    this.lensZoom = 1.0,
   });
 
   EquipmentProfile copyWith({
@@ -28,6 +30,7 @@ class EquipmentProfile {
     List<NdValue>? ndValues,
     List<ShutterSpeedValue>? shutterSpeedValues,
     List<IsoValue>? isoValues,
+    double? lensZoom,
   }) =>
       EquipmentProfile(
         id: id,
@@ -36,6 +39,7 @@ class EquipmentProfile {
         ndValues: ndValues ?? this.ndValues,
         shutterSpeedValues: shutterSpeedValues ?? this.shutterSpeedValues,
         isoValues: isoValues ?? this.isoValues,
+        lensZoom: lensZoom ?? this.lensZoom,
       );
 
   @override
@@ -50,7 +54,8 @@ class EquipmentProfile {
         listEquals(ndValues, other.ndValues) &&
         shutterSpeedValues.first == other.shutterSpeedValues.first &&
         shutterSpeedValues.last == other.shutterSpeedValues.last &&
-        listEquals(isoValues, other.isoValues);
+        listEquals(isoValues, other.isoValues) &&
+        other.lensZoom == lensZoom;
   }
 
   @override
