@@ -15,7 +15,7 @@ void main() {
 
   test('Stringify shutter speed values', () {
     expect(ShutterSpeedValue.values.first.toString(), "1/2000");
-    expect(ShutterSpeedValue.values.last.toString(), "16\"");
+    expect(ShutterSpeedValue.values.last.toString(), "1\"");
   });
 
   // Stops
@@ -31,8 +31,8 @@ void main() {
   });
 
   test('Shutter speed values stops lists', () {
-    expect(ShutterSpeedValue.values.fullStops().length, 16);
-    expect(ShutterSpeedValue.values.halfStops().length, 16 + 15);
-    expect(ShutterSpeedValue.values.thirdStops().length, 16 + 30);
+    expect(ShutterSpeedValue.values.fullStops().length, 12);
+    expect(ShutterSpeedValue.values.halfStops().length, 12 + 11);
+    expect(ShutterSpeedValue.values.thirdStops().length, 12 + 22);
   });
 }
