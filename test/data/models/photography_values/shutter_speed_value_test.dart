@@ -31,6 +31,10 @@ void main() {
     expect(a.toString(), "1/1.3");
     expect(b.toString(), "1/1.3");
     expect(c.toString(), "1\"");
+    expect(const ShutterSpeedValue(60, false, StopType.full).toString(), "1'0\"");
+    expect(const ShutterSpeedValue(128, false, StopType.full).toString(), "2'8\"");
+    expect(const ShutterSpeedValue(3600, false, StopType.full).toString(), "1°0'0\"");
+    expect(const ShutterSpeedValue(65536, false, StopType.full).toString(), "18°12'16\"");
   });
 
   test('==', () {

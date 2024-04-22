@@ -10,14 +10,34 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
 
   @override
   String toString() {
-    final buffer = StringBuffer();
-    if (isFraction) buffer.write("1/");
-    if (rawValue - rawValue.floor() == 0) {
-      buffer.write(rawValue.toInt().toString());
-    } else {
-      buffer.write(rawValue.toStringAsFixed(1));
+    String toStringAsFixed(double value) {
+      if (value - value.floor() == 0) {
+        return value.toInt().toString();
+      } else {
+        return value.toStringAsFixed(1);
+      }
     }
-    if (!isFraction) buffer.write("\"");
+
+    final buffer = StringBuffer();
+    double rawValue = this.rawValue;
+    if (isFraction) {
+      buffer.writeAll(["1/", toStringAsFixed(rawValue)]);
+    } else {
+      // longer than 1 hours
+      if (rawValue >= 3600) {
+        final hours = rawValue ~/ 3600;
+        buffer.writeAll([hours, '°']);
+        rawValue -= hours * 3600;
+      }
+      // longer than 1 minute
+      if (rawValue >= 60 || rawValue == 0) {
+        final minutes = rawValue ~/ 60;
+        buffer.writeAll([rawValue ~/ 60, "'"]);
+        rawValue -= minutes * 60;
+      }
+      // longer than 1 second
+      buffer.writeAll([toStringAsFixed(rawValue), '"']);
+    }
     return buffer.toString();
   }
 
