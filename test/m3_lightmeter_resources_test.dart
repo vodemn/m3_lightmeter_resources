@@ -10,7 +10,7 @@ void main() {
 
   test('Stringify iso values', () {
     expect(IsoValue.values.first.toString(), "3");
-    expect(IsoValue.values.last.toString(), "6400");
+    expect(IsoValue.values.last.toString(), "25600");
   });
 
   test('Stringify shutter speed values', () {
@@ -26,8 +26,8 @@ void main() {
   });
 
   test('Iso values stops lists', () {
-    expect(IsoValue.values.fullStops().length, 12);
-    expect(IsoValue.values.thirdStops().length, 12 + 22);
+    expect(IsoValue.values.fullStops().length, 14);
+    expect(IsoValue.values.thirdStops().length, 14 + 26);
   });
 
   test('Shutter speed values stops lists', () {
