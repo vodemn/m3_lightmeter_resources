@@ -51,5 +51,11 @@ class IsoValue extends PhotographyStopValue<int> {
     IsoValue(4000, StopType.third),
     IsoValue(5000, StopType.third),
     IsoValue(6400, StopType.full),
+    IsoValue(8000, StopType.third),
+    IsoValue(10000, StopType.third),
+    IsoValue(12800, StopType.full),
+    IsoValue(16000, StopType.third),
+    IsoValue(20000, StopType.third),
+    IsoValue(25600, StopType.full),
   ];
 }
