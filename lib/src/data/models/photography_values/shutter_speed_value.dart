@@ -52,6 +52,10 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
   int get hashCode => Object.hash(rawValue, isFraction, runtimeType);
 
   static const List<ShutterSpeedValue> values = [
+    ShutterSpeedValue(4000, true, StopType.full),
+    ShutterSpeedValue(3200, true, StopType.third),
+    ShutterSpeedValue(3000, true, StopType.half),
+    ShutterSpeedValue(2500, true, StopType.third),
     ShutterSpeedValue(2000, true, StopType.full),
     ShutterSpeedValue(1600, true, StopType.third),
     ShutterSpeedValue(1500, true, StopType.half),
