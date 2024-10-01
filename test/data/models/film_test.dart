@@ -14,16 +14,16 @@ void main() {
 
   test('==', () {
     expect(const Film.other() == Film.values[0], true);
-    expect(const Film('Film 1', 100) == const Film('Film 1', 100), true);
-    expect(const Film('Film 1', 100) == const Film.other(), false);
-    expect(const Film('Film 1', 100) == const Film('Film 2', 100), false);
+    expect(const Film(name: 'Film 1', iso: 100) == const Film(name: 'Film 1', iso: 100), true);
+    expect(const Film(name: 'Film 1', iso: 100) == const Film.other(), false);
+    expect(const Film(name: 'Film 1', iso: 100) == const Film(name: 'Film 2', iso: 100), false);
   });
 
   test('hashCode', () {
     expect(const Film.other().hashCode == Film.values[0].hashCode, true);
-    expect(const Film('Film 1', 100).hashCode == const Film('Film 1', 100).hashCode, true);
-    expect(const Film('Film 1', 100).hashCode == const Film.other().hashCode, false);
-    expect(const Film('Film 1', 100).hashCode == const Film('Film 2', 100).hashCode, false);
+    expect(const Film(name: 'Film 1', iso: 100).hashCode == const Film(name: 'Film 1', iso: 100).hashCode, true);
+    expect(const Film(name: 'Film 1', iso: 100).hashCode == const Film.other().hashCode, false);
+    expect(const Film(name: 'Film 1', iso: 100).hashCode == const Film(name: 'Film 2', iso: 100).hashCode, false);
   });
 
   test(
