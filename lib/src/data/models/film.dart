@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:m3_lightmeter_resources/m3_lightmeter_resources.dart';
 
 sealed class Film {
+  final String id;
   final String name;
   final int iso;
 
   const Film({
+    required this.id,
     required this.name,
     required this.iso,
   });
@@ -32,7 +34,7 @@ sealed class Film {
 }
 
 class FilmStub extends Film {
-  const FilmStub() : super(name: '', iso: 0);
+  const FilmStub() : super(id: '', name: '', iso: 0);
 
   @override
   double _reciprocityFormula(double t) => t;
@@ -42,6 +44,7 @@ class FilmExponential extends Film {
   final double exponent;
 
   const FilmExponential({
+    required super.id,
     required super.name,
     required super.iso,
     required this.exponent,
@@ -54,14 +57,19 @@ class FilmExponential extends Film {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    return other is FilmExponential && other.name == name && other.iso == iso && other.exponent == exponent;
+    return other is FilmExponential &&
+        other.id == id &&
+        other.name == name &&
+        other.iso == iso &&
+        other.exponent == exponent;
   }
 
   @override
-  int get hashCode => Object.hash(name, iso, exponent, runtimeType);
+  int get hashCode => Object.hash(id, name, iso, exponent, runtimeType);
 
   FilmExponential copyWith({String? name, int? iso, double? exponent}) {
     return FilmExponential(
+      id: id,
       name: name ?? this.name,
       iso: iso ?? this.iso,
       exponent: exponent ?? this.exponent,
@@ -75,6 +83,7 @@ class FilmPolynomian extends Film {
   final double c;
 
   const FilmPolynomian({
+    required super.id,
     required super.name,
     required super.iso,
     required this.a,
@@ -93,6 +102,7 @@ class FilmPolynomian extends Film {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
     return other is FilmPolynomian &&
+        other.id == id &&
         other.name == name &&
         other.iso == iso &&
         other.a == a &&
@@ -101,10 +111,11 @@ class FilmPolynomian extends Film {
   }
 
   @override
-  int get hashCode => Object.hash(name, iso, a, b, c, runtimeType);
+  int get hashCode => Object.hash(id, name, iso, a, b, c, runtimeType);
 
   FilmPolynomian copyWith({String? name, int? iso, double? a, double? b, double? c}) {
     return FilmPolynomian(
+      id: id,
       name: name ?? this.name,
       iso: iso ?? this.iso,
       a: a ?? this.a,
