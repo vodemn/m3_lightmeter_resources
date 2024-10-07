@@ -1,9 +1,13 @@
 import 'dart:math';
 
-import 'package:m3_lightmeter_resources/m3_lightmeter_resources.dart';
+import 'package:m3_lightmeter_resources/src/utils/identifiable.dart';
 
-sealed class Film {
+import 'photography_values/shutter_speed_value.dart';
+
+sealed class Film implements Identifiable {
+  @override
   final String id;
+  @override
   final String name;
   final int iso;
 
@@ -12,9 +16,6 @@ sealed class Film {
     required this.name,
     required this.iso,
   });
-
-  @override
-  String toString() => name;
 
   ShutterSpeedValue reciprocityFailure(ShutterSpeedValue shutterSpeed) {
     if (shutterSpeed.isFraction) {
@@ -44,11 +45,11 @@ class FilmExponential extends Film {
   final double exponent;
 
   const FilmExponential({
-    required super.id,
+    String? id,
     required super.name,
     required super.iso,
     required this.exponent,
-  });
+  }) : super(id: id ?? name);
 
   @override
   double _reciprocityFormula(double t) => pow(t, exponent).toDouble();
@@ -83,13 +84,13 @@ class FilmPolynomian extends Film {
   final double c;
 
   const FilmPolynomian({
-    required super.id,
+    String? id,
     required super.name,
     required super.iso,
     required this.a,
     required this.b,
     required this.c,
-  });
+  }) : super(id: id ?? name);
 
   @override
   double _reciprocityFormula(double t) {
