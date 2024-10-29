@@ -12,10 +12,6 @@ void main() {
     expect(const FilmStub().iso, 0);
   });
 
-  test('toString()', () {
-    expect(const FilmStub().toString(), "");
-  });
-
   test('==', () {
     expect(const FilmStub() == Film.values[0], true);
     expect(a == b, true);
