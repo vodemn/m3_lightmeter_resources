@@ -1,12 +1,15 @@
 import 'package:flutter/foundation.dart';
+import 'package:m3_lightmeter_resources/src/utils/identifiable.dart';
 
 import 'photography_values/aperture_value.dart';
 import 'photography_values/iso_value.dart';
 import 'photography_values/nd_value.dart';
 import 'photography_values/shutter_speed_value.dart';
 
-class EquipmentProfile {
+class EquipmentProfile implements Identifiable {
+  @override
   final String id;
+  @override
   final String name;
   final List<ApertureValue> apertureValues;
   final List<NdValue> ndValues;
