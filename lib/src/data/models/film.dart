@@ -95,7 +95,7 @@ class FilmPolynomian extends Film {
   @override
   double _reciprocityFormula(double t) {
     double log10(double x) => log(x) / log(10);
-    return a * pow(log10(t), 2) + b * log10(t) + c;
+    return t * (a * pow(log10(t), 2) + b * log10(t) + c);
   }
 
   @override
