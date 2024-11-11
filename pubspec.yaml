@@ -1,6 +1,6 @@
 name: m3_lightmeter_resources
 description: Common resources used by m3_lightmeter and related repositories.
-version: 2.0.0+8
+version: 2.1.0+9
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
