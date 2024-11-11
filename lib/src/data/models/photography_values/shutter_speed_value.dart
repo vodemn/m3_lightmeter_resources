@@ -36,7 +36,11 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
         rawValue -= minutes * 60;
       }
       // longer than 1 second
-      buffer.writeAll([toStringAsFixed(rawValue), '"']);
+      if (buffer.isEmpty) {
+        buffer.writeAll([toStringAsFixed(rawValue), '"']);
+      } else {
+        buffer.writeAll([rawValue.round(), '"']);
+      }
     }
     return buffer.toString();
   }
