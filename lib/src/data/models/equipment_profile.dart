@@ -16,6 +16,7 @@ class EquipmentProfile implements Identifiable {
   final List<ShutterSpeedValue> shutterSpeedValues;
   final List<IsoValue> isoValues;
   final double lensZoom;
+  final double exposureOffset;
 
   const EquipmentProfile({
     required this.id,
@@ -25,6 +26,7 @@ class EquipmentProfile implements Identifiable {
     required this.shutterSpeedValues,
     required this.isoValues,
     this.lensZoom = 1.0,
+    this.exposureOffset = 0.0,
   });
 
   EquipmentProfile copyWith({
@@ -34,6 +36,7 @@ class EquipmentProfile implements Identifiable {
     List<ShutterSpeedValue>? shutterSpeedValues,
     List<IsoValue>? isoValues,
     double? lensZoom,
+    double? exposureOffset,
   }) =>
       EquipmentProfile(
         id: id,
@@ -43,6 +46,7 @@ class EquipmentProfile implements Identifiable {
         shutterSpeedValues: shutterSpeedValues ?? this.shutterSpeedValues,
         isoValues: isoValues ?? this.isoValues,
         lensZoom: lensZoom ?? this.lensZoom,
+        exposureOffset: exposureOffset ?? this.exposureOffset,
       );
 
   @override
@@ -58,7 +62,8 @@ class EquipmentProfile implements Identifiable {
         shutterSpeedValues.first == other.shutterSpeedValues.first &&
         shutterSpeedValues.last == other.shutterSpeedValues.last &&
         listEquals(isoValues, other.isoValues) &&
-        other.lensZoom == lensZoom;
+        other.lensZoom == lensZoom &&
+        other.exposureOffset == exposureOffset;
   }
 
   @override
