@@ -1,3 +1,4 @@
+import 'package:m3_lightmeter_resources/src/data/models/optional.dart';
 import 'package:m3_lightmeter_resources/src/data/models/photography_values/aperture_value.dart';
 import 'package:m3_lightmeter_resources/src/data/models/photography_values/shutter_speed_value.dart';
 import 'package:m3_lightmeter_resources/src/utils/identifiable.dart';
@@ -38,8 +39,8 @@ final class LogbookPhoto implements Identifiable {
   });
 
   LogbookPhoto copyWith({
-    ApertureValue? apertureValue,
-    ShutterSpeedValue? shutterSpeedValue,
+    Optional<ApertureValue>? apertureValue,
+    Optional<ShutterSpeedValue>? shutterSpeedValue,
     String? note,
   }) =>
       LogbookPhoto(
@@ -50,8 +51,8 @@ final class LogbookPhoto implements Identifiable {
         iso: iso,
         nd: nd,
         coordinates: coordinates,
-        apertureValue: apertureValue ?? this.apertureValue,
-        shutterSpeedValue: shutterSpeedValue ?? this.shutterSpeedValue,
+        apertureValue: apertureValue != null ? apertureValue.value : this.apertureValue,
+        shutterSpeedValue: shutterSpeedValue != null ? shutterSpeedValue.value : this.shutterSpeedValue,
         note: note ?? this.note,
       );
 
