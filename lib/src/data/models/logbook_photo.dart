@@ -1,4 +1,4 @@
-import 'package:m3_lightmeter_resources/src/data/models/optional.dart';
+import 'package:m3_lightmeter_resources/src/utils/optional.dart';
 import 'package:m3_lightmeter_resources/src/data/models/photography_values/aperture_value.dart';
 import 'package:m3_lightmeter_resources/src/data/models/photography_values/shutter_speed_value.dart';
 import 'package:m3_lightmeter_resources/src/utils/identifiable.dart';
