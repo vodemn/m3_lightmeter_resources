@@ -15,13 +15,10 @@ final class LogbookPhoto implements Identifiable {
   final int nd;
   final Coordinates? coordinates;
 
-  /// This value can be set after the fact,
-  /// depending on what exposure pair was used to take a shot.
   final ApertureValue? apertureValue;
-
-  /// This value can be set after the fact,
-  /// depending on what exposure pair was used to take a shot.
   final ShutterSpeedValue? shutterSpeedValue;
+  final String? equipmentProfileId;
+  final String? filmId;
 
   final String note;
 
@@ -35,12 +32,16 @@ final class LogbookPhoto implements Identifiable {
     this.coordinates,
     this.apertureValue,
     this.shutterSpeedValue,
+    this.equipmentProfileId,
+    this.filmId,
     this.note = '',
   });
 
   LogbookPhoto copyWith({
     Optional<ApertureValue>? apertureValue,
     Optional<ShutterSpeedValue>? shutterSpeedValue,
+    Optional<String>? equipmentProfileId,
+    Optional<String>? filmId,
     String? note,
   }) =>
       LogbookPhoto(
@@ -53,6 +54,8 @@ final class LogbookPhoto implements Identifiable {
         coordinates: coordinates,
         apertureValue: apertureValue != null ? apertureValue.value : this.apertureValue,
         shutterSpeedValue: shutterSpeedValue != null ? shutterSpeedValue.value : this.shutterSpeedValue,
+        equipmentProfileId: equipmentProfileId != null ? equipmentProfileId.value : this.equipmentProfileId,
+        filmId: filmId != null ? filmId.value : this.filmId,
         note: note ?? this.note,
       );
 
@@ -70,6 +73,8 @@ final class LogbookPhoto implements Identifiable {
         other.coordinates == coordinates &&
         other.apertureValue == apertureValue &&
         other.shutterSpeedValue == shutterSpeedValue &&
+        other.equipmentProfileId == equipmentProfileId &&
+        other.filmId == filmId &&
         other.note == note;
   }
 
@@ -85,6 +90,8 @@ final class LogbookPhoto implements Identifiable {
         coordinates,
         apertureValue,
         shutterSpeedValue,
+        equipmentProfileId,
+        filmId,
         note,
       );
 }
