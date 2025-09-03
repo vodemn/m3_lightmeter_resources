@@ -6,27 +6,38 @@ import 'photography_values/iso_value.dart';
 import 'photography_values/nd_value.dart';
 import 'photography_values/shutter_speed_value.dart';
 
-class EquipmentProfile implements Identifiable {
+sealed class IEquipmentProfile implements Identifiable {
   @override
   final String id;
   @override
   final String name;
-  final List<ApertureValue> apertureValues;
-  final List<NdValue> ndValues;
-  final List<ShutterSpeedValue> shutterSpeedValues;
   final List<IsoValue> isoValues;
   final double lensZoom;
   final double exposureOffset;
 
-  const EquipmentProfile({
+  const IEquipmentProfile({
     required this.id,
     required this.name,
-    required this.apertureValues,
-    required this.ndValues,
-    required this.shutterSpeedValues,
     required this.isoValues,
     this.lensZoom = 1.0,
     this.exposureOffset = 0.0,
+  });
+}
+
+final class EquipmentProfile extends IEquipmentProfile {
+  final List<ApertureValue> apertureValues;
+  final List<NdValue> ndValues;
+  final List<ShutterSpeedValue> shutterSpeedValues;
+
+  const EquipmentProfile({
+    required super.id,
+    required super.name,
+    required this.apertureValues,
+    required this.ndValues,
+    required this.shutterSpeedValues,
+    required super.isoValues,
+    super.lensZoom = 1.0,
+    super.exposureOffset = 0.0,
   });
 
   EquipmentProfile copyWith({
@@ -61,6 +72,51 @@ class EquipmentProfile implements Identifiable {
         listEquals(ndValues, other.ndValues) &&
         shutterSpeedValues.first == other.shutterSpeedValues.first &&
         shutterSpeedValues.last == other.shutterSpeedValues.last &&
+        listEquals(isoValues, other.isoValues) &&
+        other.lensZoom == lensZoom &&
+        other.exposureOffset == exposureOffset;
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, runtimeType);
+}
+
+final class PinholeEquipmentProfile extends IEquipmentProfile {
+  final double aperture;
+
+  const PinholeEquipmentProfile({
+    required super.id,
+    required super.name,
+    required this.aperture,
+    required super.isoValues,
+    super.lensZoom = 1.0,
+    super.exposureOffset = 0.0,
+  });
+
+  PinholeEquipmentProfile copyWith({
+    String? name,
+    double? aperture,
+    List<IsoValue>? isoValues,
+    double? lensZoom,
+    double? exposureOffset,
+  }) =>
+      PinholeEquipmentProfile(
+        id: id,
+        name: name ?? this.name,
+        aperture: aperture ?? this.aperture,
+        isoValues: isoValues ?? this.isoValues,
+        lensZoom: lensZoom ?? this.lensZoom,
+        exposureOffset: exposureOffset ?? this.exposureOffset,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other.runtimeType != runtimeType) return false;
+    return other is PinholeEquipmentProfile &&
+        other.id == id &&
+        other.name == name &&
+        aperture == other.aperture &&
         listEquals(isoValues, other.isoValues) &&
         other.lensZoom == lensZoom &&
         other.exposureOffset == exposureOffset;
