@@ -12,6 +12,7 @@ sealed class IEquipmentProfile implements Identifiable {
   @override
   final String name;
   final List<IsoValue> isoValues;
+  final List<NdValue> ndValues;
   final double lensZoom;
   final double exposureOffset;
 
@@ -19,6 +20,7 @@ sealed class IEquipmentProfile implements Identifiable {
     required this.id,
     required this.name,
     required this.isoValues,
+    required this.ndValues,
     this.lensZoom = 1.0,
     this.exposureOffset = 0.0,
   });
@@ -26,15 +28,14 @@ sealed class IEquipmentProfile implements Identifiable {
 
 final class EquipmentProfile extends IEquipmentProfile {
   final List<ApertureValue> apertureValues;
-  final List<NdValue> ndValues;
   final List<ShutterSpeedValue> shutterSpeedValues;
 
   const EquipmentProfile({
     required super.id,
     required super.name,
     required this.apertureValues,
-    required this.ndValues,
     required this.shutterSpeedValues,
+    required super.ndValues,
     required super.isoValues,
     super.lensZoom = 1.0,
     super.exposureOffset = 0.0,
@@ -89,6 +90,7 @@ final class PinholeEquipmentProfile extends IEquipmentProfile {
     required super.name,
     required this.aperture,
     required super.isoValues,
+    required super.ndValues,
     super.lensZoom = 1.0,
     super.exposureOffset = 0.0,
   });
@@ -97,6 +99,7 @@ final class PinholeEquipmentProfile extends IEquipmentProfile {
     String? name,
     double? aperture,
     List<IsoValue>? isoValues,
+    List<NdValue>? ndValues,
     double? lensZoom,
     double? exposureOffset,
   }) =>
@@ -105,6 +108,7 @@ final class PinholeEquipmentProfile extends IEquipmentProfile {
         name: name ?? this.name,
         aperture: aperture ?? this.aperture,
         isoValues: isoValues ?? this.isoValues,
+        ndValues: ndValues ?? this.ndValues,
         lensZoom: lensZoom ?? this.lensZoom,
         exposureOffset: exposureOffset ?? this.exposureOffset,
       );
@@ -118,6 +122,7 @@ final class PinholeEquipmentProfile extends IEquipmentProfile {
         other.name == name &&
         aperture == other.aperture &&
         listEquals(isoValues, other.isoValues) &&
+        listEquals(ndValues, other.ndValues) &&
         other.lensZoom == lensZoom &&
         other.exposureOffset == exposureOffset;
   }
