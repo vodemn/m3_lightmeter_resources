@@ -73,7 +73,7 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
   String _formatMinutesSeconds(int totalSeconds, int secondsPerMinute) {
     int m = totalSeconds ~/ secondsPerMinute;
     int s = totalSeconds % secondsPerMinute;
-    return "$m:${s.toString().padLeft(2, '0')}";
+    return "${m}m ${s}s";
   }
 
   String _formatHoursMinutes(int totalSeconds, int secondsPerHour, int secondsPerMinute) {

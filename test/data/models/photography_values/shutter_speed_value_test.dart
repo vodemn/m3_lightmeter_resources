@@ -54,11 +54,11 @@ void main() {
     );
     expect(
       const ShutterSpeedValue(60, false, StopType.full).toString(),
-      "1:00",
+      "1m 0s",
     );
     expect(
       const ShutterSpeedValue(128, false, StopType.full).toString(),
-      "2:08",
+      "2m 8s",
     );
     expect(
       const ShutterSpeedValue(3600, false, StopType.full).toString(),
@@ -127,17 +127,17 @@ void main() {
     test('Minutes:seconds formatting (1m-10m)', () {
       expect(
         const ShutterSpeedValue(60.0, false, StopType.full).toString(),
-        "1:00",
-        reason: "Exact minutes must format as M:00",
+        "1m 0s",
+        reason: "Exact minutes must format as Mm 0s",
       );
       expect(
         const ShutterSpeedValue(90.0, false, StopType.full).toString(),
-        "1:30",
-        reason: "Minutes with seconds must format as M:SS",
+        "1m 30s",
+        reason: "Minutes with seconds must format as Mm Ss",
       );
       expect(
         const ShutterSpeedValue(90.6, false, StopType.full).toString(),
-        "1:31",
+        "1m 31s",
         reason: "Must round to the nearest second",
       );
     });
@@ -145,17 +145,17 @@ void main() {
     test('10-Second interval formatting (10m-1h)', () {
       expect(
         const ShutterSpeedValue(600.0, false, StopType.full).toString(),
-        "10:00",
-        reason: "Exact 10-second intervals must format as M:SS",
+        "10m 0s",
+        reason: "Exact 10-second intervals must format as Mm 0s",
       );
       expect(
         const ShutterSpeedValue(605.0, false, StopType.full).toString(),
-        "10:10",
+        "10m 10s",
         reason: "Must round to the nearest 10 seconds",
       );
       expect(
         const ShutterSpeedValue(665.0, false, StopType.full).toString(),
-        "11:10",
+        "11m 10s",
         reason: "Rounding must work across minute boundaries",
       );
     });
@@ -268,7 +268,7 @@ void main() {
       );
       expect(
         const ShutterSpeedValue(60.0, false, StopType.full).toString(),
-        "1:00",
+        "1m 0s",
         reason: "Boundary between 1m-10m and 10m-1h ranges",
       );
       expect(
