@@ -18,31 +18,73 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
       }
     }
 
-    final buffer = StringBuffer();
-    double rawValue = this.rawValue;
     if (isFraction) {
-      buffer.writeAll(["1/", toStringAsFixed(rawValue)]);
+      return "1/${toStringAsFixed(rawValue)}";
     } else {
-      // longer than 1 hours
-      if (rawValue >= 3600) {
-        final hours = rawValue ~/ 3600;
-        buffer.writeAll([hours, '°']);
-        rawValue -= hours * 3600;
+      double seconds = rawValue;
+      const int secondsPerMinute = 60;
+      const int secondsPerHour = 3600;
+      const int secondsPerDay = 86400;
+
+      // Rounding helpers
+      double roundTo(double value, double precision) {
+        return (value / precision).round() * precision;
       }
-      // longer than 1 minute
-      if (rawValue >= 60 || rawValue == 0) {
-        final minutes = rawValue ~/ 60;
-        buffer.writeAll([rawValue ~/ 60, "'"]);
-        rawValue -= minutes * 60;
-      }
-      // longer than 1 second
-      if (buffer.isEmpty) {
-        buffer.writeAll([toStringAsFixed(rawValue), '"']);
+
+      if (seconds < 1) {
+        // <1s: show fraction or decimal seconds up to 0.1 precision.
+        double rounded = roundTo(seconds, 0.1);
+        return "${rounded.toStringAsFixed(1)}s";
+      } else if (seconds < 10) {
+        // <10s → one decimal
+        double rounded = roundTo(seconds, 0.1);
+        return "${rounded.toStringAsFixed(1)}s";
+      } else if (seconds < secondsPerMinute) {
+        // 10s–59s: nearest 1s
+        int rounded = roundTo(seconds, 1).toInt();
+        return "${rounded}s";
+      } else if (seconds < 10 * secondsPerMinute) {
+        // 1m–10m → nearest 1s
+        int rounded = roundTo(seconds, 1).toInt();
+        int m = rounded ~/ secondsPerMinute;
+        int s = rounded % secondsPerMinute;
+        return "$m:${s.toString().padLeft(2, '0')}";
+      } else if (seconds < secondsPerHour) {
+        // 10m–1h → nearest 10s
+        int rounded = roundTo(seconds, 10).toInt();
+        int m = rounded ~/ secondsPerMinute;
+        int s = rounded % secondsPerMinute;
+        return "$m:${s.toString().padLeft(2, '0')}";
+      } else if (seconds < 6 * secondsPerHour) {
+        // 1h–6h → nearest 1m
+        int rounded = roundTo(seconds, 60).toInt();
+        int h = rounded ~/ secondsPerHour;
+        int m = (rounded % secondsPerHour) ~/ secondsPerMinute;
+        return "${h}h ${m}m";
+      } else if (seconds < secondsPerDay) {
+        // 6h–1d → nearest 5m
+        int rounded = roundTo(seconds, 300).toInt(); // 5*60=300
+        int h = rounded ~/ secondsPerHour;
+        int m = (rounded % secondsPerHour) ~/ secondsPerMinute;
+        return "${h}h ${m}m";
+      } else if (seconds < 7 * secondsPerDay) {
+        // 1d–7d → nearest 10m
+        int rounded = roundTo(seconds, 600).toInt(); // 10*60=600
+        int d = rounded ~/ secondsPerDay;
+        int h = (rounded % secondsPerDay) ~/ secondsPerHour;
+        return "${d}d ${h}h";
+      } else if (seconds < 31 * secondsPerDay) {
+        // 7d–31d → nearest 1h
+        int rounded = roundTo(seconds, 3600).toInt();
+        int d = rounded ~/ secondsPerDay;
+        int h = (rounded % secondsPerDay) ~/ secondsPerHour;
+        return "${d}d ${h}h";
       } else {
-        buffer.writeAll([rawValue.round(), '"']);
+        // ≥30d: show "Dd" only.
+        int d = (seconds / secondsPerDay).round();
+        return "${d}d";
       }
     }
-    return buffer.toString();
   }
 
   @override
