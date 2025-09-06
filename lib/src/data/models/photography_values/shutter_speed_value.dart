@@ -10,16 +10,15 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
 
   @override
   String toString() {
-    String toStringAsFixed(double value) {
-      if (value - value.floor() == 0) {
-        return value.toInt().toString();
-      } else {
-        return value.toStringAsFixed(1);
+    String cleanDouble(double v) {
+      if (v == v.roundToDouble()) {
+        return v.toInt().toString();
       }
+      return v.toStringAsFixed(1);
     }
 
     if (isFraction) {
-      return "1/${toStringAsFixed(rawValue)}";
+      return "1/${cleanDouble(rawValue)}";
     } else {
       double seconds = rawValue;
       const int secondsPerMinute = 60;
@@ -34,11 +33,11 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
       if (seconds < 1) {
         // <1s: show fraction or decimal seconds up to 0.1 precision.
         double rounded = roundTo(seconds, 0.1);
-        return "${rounded.toStringAsFixed(1)}s";
+        return "${cleanDouble(rounded)}s";
       } else if (seconds < 10) {
         // <10s → one decimal
         double rounded = roundTo(seconds, 0.1);
-        return "${rounded.toStringAsFixed(1)}s";
+        return "${cleanDouble(rounded)}s";
       } else if (seconds < secondsPerMinute) {
         // 10s–59s: nearest 1s
         int rounded = roundTo(seconds, 1).toInt();
