@@ -50,7 +50,7 @@ void main() {
     );
     expect(
       c.toString(),
-      "1.0s",
+      "1s",
     );
     expect(
       const ShutterSpeedValue(60, false, StopType.full).toString(),
@@ -104,18 +104,18 @@ void main() {
     test('Seconds formatting (< 1 minute)', () {
       expect(
         const ShutterSpeedValue(1.0, false, StopType.full).toString(),
-        "1.0s",
-        reason: "Exactly 1 second must show as 1.0s",
+        "1s",
+        reason: "Exactly 1 second must show as 1s",
       );
       expect(
         const ShutterSpeedValue(1.4, false, StopType.full).toString(),
-        "1.4s",
-        reason: "1.4 seconds must show as 1.4s",
+        "1s",
+        reason: "1.4 seconds must round to 1s",
       );
       expect(
         const ShutterSpeedValue(10.0, false, StopType.full).toString(),
         "10s",
-        reason: "10-59 seconds must round to the nearest whole second",
+        reason: "1-59 seconds must round to the nearest whole second",
       );
       expect(
         const ShutterSpeedValue(10.5, false, StopType.full).toString(),
@@ -124,15 +124,15 @@ void main() {
       );
     });
 
-    test('Minutes:seconds formatting (1m-10m)', () {
+    test('Minutes:seconds formatting (1m-59m)', () {
       expect(
         const ShutterSpeedValue(60.0, false, StopType.full).toString(),
         "1m 0s",
         reason: "Exact minutes must format as Mm 0s",
       );
       expect(
-        const ShutterSpeedValue(90.0, false, StopType.full).toString(),
-        "1m 30s",
+        const ShutterSpeedValue(92.0, false, StopType.full).toString(),
+        "1m 32s",
         reason: "Minutes with seconds must format as Mm Ss",
       );
       expect(
@@ -142,25 +142,7 @@ void main() {
       );
     });
 
-    test('10-Second interval formatting (10m-1h)', () {
-      expect(
-        const ShutterSpeedValue(600.0, false, StopType.full).toString(),
-        "10m 0s",
-        reason: "Exact 10-second intervals must format as Mm 0s",
-      );
-      expect(
-        const ShutterSpeedValue(605.0, false, StopType.full).toString(),
-        "10m 10s",
-        reason: "Must round to the nearest 10 seconds",
-      );
-      expect(
-        const ShutterSpeedValue(665.0, false, StopType.full).toString(),
-        "11m 10s",
-        reason: "Rounding must work across minute boundaries",
-      );
-    });
-
-    test('Hours:minutes formatting (1h-6h)', () {
+    test('Hours:minutes formatting (1h-23h)', () {
       expect(
         const ShutterSpeedValue(3600.0, false, StopType.full).toString(),
         "1h 0m",
@@ -183,25 +165,7 @@ void main() {
       );
     });
 
-    test('Extended hours:minutes formatting (6h-1d)', () {
-      expect(
-        const ShutterSpeedValue(21600.0, false, StopType.full).toString(),
-        "6h 0m",
-        reason: "Exact minute intervals must format as Hh 0m",
-      );
-      expect(
-        const ShutterSpeedValue(21630.0, false, StopType.full).toString(),
-        "6h 1m",
-        reason: "Must round to the nearest 1 minute",
-      );
-      expect(
-        const ShutterSpeedValue(23400.0, false, StopType.full).toString(),
-        "6h 30m",
-        reason: "Various hour ranges must format correctly",
-      );
-    });
-
-    test('Days:hours formatting (1d-7d)', () {
+    test('Days:hours formatting (1d-29d)', () {
       expect(
         const ShutterSpeedValue(86400.0, false, StopType.full).toString(),
         "1d 0h",
@@ -215,24 +179,6 @@ void main() {
       expect(
         const ShutterSpeedValue(129600.0, false, StopType.full).toString(),
         "1d 12h",
-        reason: "Various day ranges must format as Dd Hh",
-      );
-    });
-
-    test('Extended days:hours formatting (7d-31d)', () {
-      expect(
-        const ShutterSpeedValue(604800.0, false, StopType.full).toString(),
-        "7d 0h",
-        reason: "Exact day boundaries must format as Dd 0h",
-      );
-      expect(
-        const ShutterSpeedValue(612000.0, false, StopType.full).toString(),
-        "7d 2h",
-        reason: "Must round to the nearest hour",
-      );
-      expect(
-        const ShutterSpeedValue(1303200.0, false, StopType.full).toString(),
-        "15d 2h",
         reason: "Various day ranges must format as Dd Hh",
       );
     });
@@ -258,33 +204,28 @@ void main() {
     test('Boundary values', () {
       expect(
         const ShutterSpeedValue(1.0, false, StopType.full).toString(),
-        "1.0s",
-        reason: "Boundary between 1-9s and 10-59s ranges",
-      );
-      expect(
-        const ShutterSpeedValue(10.0, false, StopType.full).toString(),
-        "10s",
-        reason: "Boundary between 10-59s and 1m-10m ranges",
+        "1s",
+        reason: "Boundary between <1s and 1s-59s ranges",
       );
       expect(
         const ShutterSpeedValue(60.0, false, StopType.full).toString(),
         "1m 0s",
-        reason: "Boundary between 1m-10m and 10m-1h ranges",
+        reason: "Boundary between 1s-59s and 1m-59m ranges",
       );
       expect(
         const ShutterSpeedValue(3600.0, false, StopType.full).toString(),
         "1h 0m",
-        reason: "Boundary between 10m-1h and 1h-6h ranges",
+        reason: "Boundary between 1m-59m and 1h-23h ranges",
       );
       expect(
         const ShutterSpeedValue(86400.0, false, StopType.full).toString(),
         "1d 0h",
-        reason: "Boundary between 6h-1d and 1d-7d ranges",
+        reason: "Boundary between 1h-23h and 1d-29d ranges",
       );
       expect(
         const ShutterSpeedValue(2592000.0, false, StopType.full).toString(),
         "30d",
-        reason: "Boundary between 7d-31d and 30d+ ranges",
+        reason: "Boundary between 1d-29d and 30d+ ranges",
       );
     });
 
@@ -292,12 +233,12 @@ void main() {
       expect(
         const ShutterSpeedValue(10.55, false, StopType.full).toString(),
         "11s",
-        reason: "Rounding must work in the 10-59s range",
+        reason: "Rounding must work in the 1s-59s range",
       );
       expect(
         const ShutterSpeedValue(1.5, false, StopType.full).toString(),
-        "1.5s",
-        reason: "Clean double formatting must preserve decimals",
+        "2s",
+        reason: "Rounding must work for decimal seconds",
       );
     });
   });

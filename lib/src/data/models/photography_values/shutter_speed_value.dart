@@ -20,38 +20,27 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
       const int secondsPerDay = 86400;
 
       if (seconds < 1) {
-        // <1s: show fraction or decimal seconds up to 0.1 precision.
+        // <1s: show decimal seconds up to 0.1 precision
         double rounded = _roundTo(seconds, 0.1);
-        return "${_cleanDouble(rounded)}s";
-      } else if (seconds < 10) {
-        // <10s → one decimal
-        double rounded = _roundTo(seconds, 0.1);
-        if (rounded == 1.0) {
-          return "1.0s";
-        }
         return "${_cleanDouble(rounded)}s";
       } else if (seconds < secondsPerMinute) {
-        // 10s–59s: nearest 1s
+        // 1s–59s: round to nearest 1s
         int rounded = _roundTo(seconds, 1).toInt();
         return "${rounded}s";
-      } else if (seconds < 10 * secondsPerMinute) {
-        // 1m–10m → nearest 1s
+      } else if (seconds < secondsPerHour) {
+        // 1m–59m: round to nearest 1s
         int rounded = _roundTo(seconds, 1).toInt();
         return _formatMinutesSeconds(rounded, secondsPerMinute);
-      } else if (seconds < secondsPerHour) {
-        // 10m–1h → nearest 10s
-        int rounded = _roundTo(seconds, 10).toInt();
-        return _formatMinutesSeconds(rounded, secondsPerMinute);
       } else if (seconds < secondsPerDay) {
-        // 1h–1d → nearest 1m
+        // 1h–23h: round to nearest 1m
         int rounded = _roundTo(seconds, 60).toInt();
         return _formatHoursMinutes(rounded, secondsPerHour, secondsPerMinute);
       } else if (seconds < 30 * secondsPerDay) {
-        // 1d–30d → nearest 1h
+        // 1d–29d: round to nearest 1h
         int rounded = _roundTo(seconds, 3600).toInt();
         return _formatDaysHours(rounded, secondsPerDay, secondsPerHour);
       } else {
-        // ≥30d: show "Dd" only.
+        // ≥30d: show "Dd" only
         int d = (seconds / secondsPerDay).round();
         return "${d}d";
       }
