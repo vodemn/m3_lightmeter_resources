@@ -3,7 +3,8 @@ import 'photography_value.dart';
 class ShutterSpeedValue extends PhotographyStopValue<double> {
   final bool isFraction;
 
-  const ShutterSpeedValue(super.rawValue, this.isFraction, super.stopType);
+  const ShutterSpeedValue(super.rawValue, this.isFraction, super.stopType)
+      : assert(isFraction || rawValue >= 1, 'Non-fractional shutter speed value must be greater or equal to 1');
 
   @override
   double get value => isFraction ? 1 / rawValue : rawValue;
@@ -37,6 +38,9 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
       } else if (seconds < 10) {
         // <10s → one decimal
         double rounded = roundTo(seconds, 0.1);
+        if (rounded == 1.0) {
+          return "1.0s";
+        }
         return "${cleanDouble(rounded)}s";
       } else if (seconds < secondsPerMinute) {
         // 10s–59s: nearest 1s
@@ -61,19 +65,19 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
         int m = (rounded % secondsPerHour) ~/ secondsPerMinute;
         return "${h}h ${m}m";
       } else if (seconds < secondsPerDay) {
-        // 6h–1d → nearest 5m
-        int rounded = roundTo(seconds, 300).toInt(); // 5*60=300
+        // 6h–1d → nearest 1m
+        int rounded = roundTo(seconds, 60).toInt(); // 1*60=60
         int h = rounded ~/ secondsPerHour;
         int m = (rounded % secondsPerHour) ~/ secondsPerMinute;
         return "${h}h ${m}m";
       } else if (seconds < 7 * secondsPerDay) {
-        // 1d–7d → nearest 10m
-        int rounded = roundTo(seconds, 600).toInt(); // 10*60=600
+        // 1d–7d → nearest 1h
+        int rounded = roundTo(seconds, 3600).toInt();
         int d = rounded ~/ secondsPerDay;
         int h = (rounded % secondsPerDay) ~/ secondsPerHour;
         return "${d}d ${h}h";
-      } else if (seconds < 31 * secondsPerDay) {
-        // 7d–31d → nearest 1h
+      } else if (seconds < 30 * secondsPerDay) {
+        // 7d–30d → nearest 1h
         int rounded = roundTo(seconds, 3600).toInt();
         int d = rounded ~/ secondsPerDay;
         int h = (rounded % secondsPerDay) ~/ secondsPerHour;
