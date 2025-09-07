@@ -3,46 +3,78 @@ import 'photography_value.dart';
 class ShutterSpeedValue extends PhotographyStopValue<double> {
   final bool isFraction;
 
-  const ShutterSpeedValue(super.rawValue, this.isFraction, super.stopType);
+  const ShutterSpeedValue(super.rawValue, this.isFraction, super.stopType)
+      : assert(isFraction || rawValue >= 1, 'Non-fractional shutter speed value must be greater or equal to 1');
 
   @override
   double get value => isFraction ? 1 / rawValue : rawValue;
 
   @override
   String toString() {
-    String toStringAsFixed(double value) {
-      if (value - value.floor() == 0) {
-        return value.toInt().toString();
-      } else {
-        return value.toStringAsFixed(1);
-      }
-    }
-
-    final buffer = StringBuffer();
-    double rawValue = this.rawValue;
     if (isFraction) {
-      buffer.writeAll(["1/", toStringAsFixed(rawValue)]);
+      return "1/${_cleanDouble(rawValue)}";
     } else {
-      // longer than 1 hours
-      if (rawValue >= 3600) {
-        final hours = rawValue ~/ 3600;
-        buffer.writeAll([hours, '°']);
-        rawValue -= hours * 3600;
-      }
-      // longer than 1 minute
-      if (rawValue >= 60 || rawValue == 0) {
-        final minutes = rawValue ~/ 60;
-        buffer.writeAll([rawValue ~/ 60, "'"]);
-        rawValue -= minutes * 60;
-      }
-      // longer than 1 second
-      if (buffer.isEmpty) {
-        buffer.writeAll([toStringAsFixed(rawValue), '"']);
+      double seconds = rawValue;
+      const int secondsPerMinute = 60;
+      const int secondsPerHour = 3600;
+      const int secondsPerDay = 86400;
+
+      if (seconds < 1) {
+        // <1s: show decimal seconds up to 0.1 precision
+        double rounded = _roundTo(seconds, 0.1);
+        return "${_cleanDouble(rounded)}s";
+      } else if (seconds < secondsPerMinute) {
+        // 1s–59s: round to nearest 1s
+        int rounded = _roundTo(seconds, 1).toInt();
+        return "${rounded}s";
+      } else if (seconds < secondsPerHour) {
+        // 1m–59m: round to nearest 1s
+        int rounded = _roundTo(seconds, 1).toInt();
+        return _formatMinutesSeconds(rounded, secondsPerMinute);
+      } else if (seconds < secondsPerDay) {
+        // 1h–23h: round to nearest 1m
+        int rounded = _roundTo(seconds, 60).toInt();
+        return _formatHoursMinutes(rounded, secondsPerHour, secondsPerMinute);
+      } else if (seconds < 30 * secondsPerDay) {
+        // 1d–29d: round to nearest 1h
+        int rounded = _roundTo(seconds, 3600).toInt();
+        return _formatDaysHours(rounded, secondsPerDay, secondsPerHour);
       } else {
-        buffer.writeAll([rawValue.round(), '"']);
+        // ≥30d: show "Dd" only
+        int d = (seconds / secondsPerDay).round();
+        return "${d}d";
       }
     }
-    return buffer.toString();
+  }
+
+  // Helper methods for time formatting
+  String _cleanDouble(double v) {
+    if (v == v.roundToDouble()) {
+      return v.toInt().toString();
+    }
+    return v.toStringAsFixed(1);
+  }
+
+  double _roundTo(double value, double precision) {
+    return (value / precision).round() * precision;
+  }
+
+  String _formatMinutesSeconds(int totalSeconds, int secondsPerMinute) {
+    int m = totalSeconds ~/ secondsPerMinute;
+    int s = totalSeconds % secondsPerMinute;
+    return "${m}m ${s}s";
+  }
+
+  String _formatHoursMinutes(int totalSeconds, int secondsPerHour, int secondsPerMinute) {
+    int h = totalSeconds ~/ secondsPerHour;
+    int m = (totalSeconds % secondsPerHour) ~/ secondsPerMinute;
+    return "${h}h ${m}m";
+  }
+
+  String _formatDaysHours(int totalSeconds, int secondsPerDay, int secondsPerHour) {
+    int d = totalSeconds ~/ secondsPerDay;
+    int h = (totalSeconds % secondsPerDay) ~/ secondsPerHour;
+    return "${d}d ${h}h";
   }
 
   @override
