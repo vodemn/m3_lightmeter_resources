@@ -23,8 +23,12 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
         // <1s: show decimal seconds up to 0.1 precision
         double rounded = _roundTo(seconds, 0.1);
         return "${_cleanDouble(rounded)}s";
+      } else if (seconds < 10) {
+        // 1s–9.99s: round according to stop type
+        double rounded = _roundToStopType(seconds, stopType);
+        return "${_cleanDouble(rounded)}s";
       } else if (seconds < secondsPerMinute) {
-        // 1s–59s: round to nearest 1s
+        // 10s–59s: round to nearest 1s
         int rounded = _roundTo(seconds, 1).toInt();
         return "${rounded}s";
       } else if (seconds < secondsPerHour) {
@@ -57,6 +61,27 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
 
   double _roundTo(double value, double precision) {
     return (value / precision).round() * precision;
+  }
+
+  double _roundToStopType(double value, StopType stopType) {
+    switch (stopType) {
+      case StopType.full:
+        // Round to nearest whole number
+        return value.roundToDouble();
+      case StopType.half:
+        // Round to nearest 0.5 increment
+        return (value * 2).round() / 2;
+      case StopType.third:
+        // Round to nearest 1/3 increment, but round 0.5+ to 0.6
+        final double base = value.floorToDouble();
+        final double fractional = value - base;
+
+        if (fractional < 0.5) {
+          return base + 0.3;
+        } else {
+          return base + 0.6;
+        }
+    }
   }
 
   String _formatMinutesSeconds(int totalSeconds, int secondsPerMinute) {
