@@ -108,11 +108,6 @@ void main() {
         reason: "Exactly 1 second must show as 1s",
       );
       expect(
-        const ShutterSpeedValue(1.4, false, StopType.full).toString(),
-        "1s",
-        reason: "1.4 seconds must round to 1s",
-      );
-      expect(
         const ShutterSpeedValue(10.0, false, StopType.full).toString(),
         "10s",
         reason: "1-59 seconds must round to the nearest whole second",
@@ -234,11 +229,6 @@ void main() {
         const ShutterSpeedValue(10.55, false, StopType.full).toString(),
         "11s",
         reason: "Rounding must work in the 1s-59s range",
-      );
-      expect(
-        const ShutterSpeedValue(1.5, false, StopType.full).toString(),
-        "2s",
-        reason: "Rounding must work for decimal seconds",
       );
     });
   });

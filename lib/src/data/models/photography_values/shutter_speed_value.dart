@@ -14,34 +14,34 @@ class ShutterSpeedValue extends PhotographyStopValue<double> {
     if (isFraction) {
       return "1/${_cleanDouble(rawValue)}";
     } else {
-      double seconds = rawValue;
+      final double seconds = rawValue;
       const int secondsPerMinute = 60;
       const int secondsPerHour = 3600;
       const int secondsPerDay = 86400;
 
-      if (seconds < 1) {
-        // <1s: show decimal seconds up to 0.1 precision
-        double rounded = _roundTo(seconds, 0.1);
+      if (seconds < 10) {
+        // <10s: show decimal seconds up to 0.1 precision
+        final rounded = _roundTo(seconds, 0.1);
         return "${_cleanDouble(rounded)}s";
       } else if (seconds < secondsPerMinute) {
-        // 1s–59s: round to nearest 1s
-        int rounded = _roundTo(seconds, 1).toInt();
+        // 10s–59s: round to nearest 1s
+        final rounded = _roundTo(seconds, 1).toInt();
         return "${rounded}s";
       } else if (seconds < secondsPerHour) {
         // 1m–59m: round to nearest 1s
-        int rounded = _roundTo(seconds, 1).toInt();
+        final rounded = _roundTo(seconds, 1).toInt();
         return _formatMinutesSeconds(rounded, secondsPerMinute);
       } else if (seconds < secondsPerDay) {
         // 1h–23h: round to nearest 1m
-        int rounded = _roundTo(seconds, 60).toInt();
+        final rounded = _roundTo(seconds, 60).toInt();
         return _formatHoursMinutes(rounded, secondsPerHour, secondsPerMinute);
       } else if (seconds < 30 * secondsPerDay) {
         // 1d–29d: round to nearest 1h
-        int rounded = _roundTo(seconds, 3600).toInt();
+        final rounded = _roundTo(seconds, 3600).toInt();
         return _formatDaysHours(rounded, secondsPerDay, secondsPerHour);
       } else {
         // ≥30d: show "Dd" only
-        int d = (seconds / secondsPerDay).round();
+        final d = (seconds / secondsPerDay).round();
         return "${d}d";
       }
     }
