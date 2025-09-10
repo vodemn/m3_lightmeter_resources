@@ -241,5 +241,126 @@ void main() {
         reason: "Rounding must work for decimal seconds",
       );
     });
+
+    test('Stop-type-based rounding for 1-10s range', () {
+      // Full stop rounding (nearest whole number)
+      expect(
+        const ShutterSpeedValue(1.4, false, StopType.full).toString(),
+        "1s",
+        reason: "1.4s with full stop rounds down to 1s",
+      );
+      expect(
+        const ShutterSpeedValue(1.6, false, StopType.full).toString(),
+        "2s",
+        reason: "1.6s with full stop rounds up to 2s",
+      );
+      expect(
+        const ShutterSpeedValue(4.4, false, StopType.full).toString(),
+        "4s",
+        reason: "4.4s with full stop rounds down to 4s",
+      );
+      expect(
+        const ShutterSpeedValue(4.6, false, StopType.full).toString(),
+        "5s",
+        reason: "4.6s with full stop rounds up to 5s",
+      );
+
+      // Half stop rounding (nearest 0.5 increment)
+      expect(
+        const ShutterSpeedValue(1.2, false, StopType.half).toString(),
+        "1s",
+        reason: "1.2s with half stop rounds down to 1s",
+      );
+      expect(
+        const ShutterSpeedValue(1.3, false, StopType.half).toString(),
+        "1.5s",
+        reason: "1.3s with half stop rounds up to 1.5s",
+      );
+      expect(
+        const ShutterSpeedValue(1.7, false, StopType.half).toString(),
+        "1.5s",
+        reason: "1.7s with half stop rounds down to 1.5s",
+      );
+      expect(
+        const ShutterSpeedValue(1.8, false, StopType.half).toString(),
+        "2s",
+        reason: "1.8s with half stop rounds up to 2s",
+      );
+      expect(
+        const ShutterSpeedValue(2.3, false, StopType.half).toString(),
+        "2.5s",
+        reason: "2.3s with half stop rounds up to 2.5s",
+      );
+      expect(
+        const ShutterSpeedValue(2.7, false, StopType.half).toString(),
+        "2.5s",
+        reason: "2.7s with half stop rounds down to 2.5s",
+      );
+
+      // Third stop rounding (0.3 for <0.5, 0.6 for >=0.5)
+      expect(
+        const ShutterSpeedValue(1.2, false, StopType.third).toString(),
+        "1.3s",
+        reason: "1.2s with third stop rounds to 1.3s (<0.5)",
+      );
+      expect(
+        const ShutterSpeedValue(1.5, false, StopType.third).toString(),
+        "1.6s",
+        reason: "1.5s with third stop rounds to 1.6s (>=0.5)",
+      );
+      expect(
+        const ShutterSpeedValue(2.2, false, StopType.third).toString(),
+        "2.3s",
+        reason: "2.2s with third stop rounds to 2.3s (<0.5)",
+      );
+      expect(
+        const ShutterSpeedValue(2.5, false, StopType.third).toString(),
+        "2.6s",
+        reason: "2.5s with third stop rounds to 2.6s (>=0.5)",
+      );
+      expect(
+        const ShutterSpeedValue(3.2, false, StopType.third).toString(),
+        "3.3s",
+        reason: "3.2s with third stop rounds to 3.3s (<0.5)",
+      );
+      expect(
+        const ShutterSpeedValue(3.5, false, StopType.third).toString(),
+        "3.6s",
+        reason: "3.5s with third stop rounds to 3.6s (>=0.5)",
+      );
+    });
+
+    test('Boundary values for 1-10s range', () {
+      // Test exact boundary values
+      expect(
+        const ShutterSpeedValue(1.0, false, StopType.full).toString(),
+        "1s",
+        reason: "Exactly 1s should remain 1s",
+      );
+      expect(
+        const ShutterSpeedValue(10.0, false, StopType.full).toString(),
+        "10s",
+        reason: "Exactly 10s should remain 10s",
+      );
+
+      // Test rounding at 0.5 boundary for third stop
+      expect(
+        const ShutterSpeedValue(1.49, false, StopType.third).toString(),
+        "1.3s",
+        reason: "1.49s with third stop rounds down to 1.3s (<0.5)",
+      );
+      expect(
+        const ShutterSpeedValue(1.51, false, StopType.third).toString(),
+        "1.6s",
+        reason: "1.51s with third stop rounds up to 1.6s (>=0.5)",
+      );
+
+      // Test values just below 10s
+      expect(
+        const ShutterSpeedValue(9.9, false, StopType.full).toString(),
+        "10s",
+        reason: "9.9s with full stop should round to 10s",
+      );
+    });
   });
 }
